@@ -23,8 +23,8 @@ else:
 # 基本的工具类，便于其他几个类继承
 class BaseUtils(object):
     def __init__(self, userid, password):
-        # self.prefix = "http://www.haizhilicai.com/"  # 公测地址
-        self.prefix = "http://192.168.0.136/"  # 内测地址
+        self.prefix = "http://www.haizhilicai.com/"  # 公测地址
+        # self.prefix = "http://192.168.0.136/"  # 内测地址
         self.send_dic = {'userid': '', 'password': ''}
         self.set_userid(userid)
         self.set_password(password)
