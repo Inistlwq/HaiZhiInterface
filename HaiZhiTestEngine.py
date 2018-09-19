@@ -2,9 +2,9 @@
 
 import datetime
 import json
-from HistoryTrading import HistoryTrading
-from RealTimeTrading import RealTimeTrading
-from HaizhiData import HaizhiData
+from .HistoryTrading import HistoryTrading
+from .RealTimeTrading import RealTimeTrading
+from .HaizhiData import HaizhiData
 
 '''装饰器'''
 
@@ -24,14 +24,14 @@ def input_checker(func):
             while len(kwargs['code']) < 6:
                 kwargs['code'] = '0' + kwargs['code']
         else:
-            raise TypeError, 'code must be str or int'
+            raise (TypeError, 'code must be str or int')
         # 股票交易量检查
         if isinstance(kwargs['volume'], str):
             pass
         elif isinstance(kwargs['volume'], int):
             kwargs['volume'] = str(kwargs['volume'])
         else:
-            raise TypeError, 'volume must be str or int'
+            raise (TypeError, 'volume must be str or int')
         #回测日期检查
         if isinstance(self._core,HistoryTrading):
             if 'date' not in kwargs:
@@ -42,7 +42,7 @@ def input_checker(func):
             elif isinstance(kwargs['date'],str):
                 pass
             else:
-                raise TypeError,'date must be str or datetime object'
+                raise (TypeError,'date must be str or datetime object')
         #返回函数
         #print kwargs
         res = func(self, **kwargs)
@@ -70,7 +70,7 @@ class HaiZhiTestEngine(object):
         elif type == 'HaizhiData':
             self._core = HaizhiData(userid=user_id, password=password)
         else:
-            raise ValueError,'type must be "RealTimeTrading" or "HistoryTrading"'
+            raise (ValueError,'type must be "RealTimeTrading" or "HistoryTrading"')
     #显示当前的交易引擎类型
     @property
     def core(self):
@@ -104,7 +104,7 @@ class HaiZhiTestEngine(object):
             elif isinstance(date,datetime.datetime):
                 self._current_time = date
         else:
-            raise TypeError, '%s can not operate on current_time' % (self._core.__class__)
+            raise (TypeError, '%s can not operate on current_time' % (self._core.__class__))
 
     def shift_current_time(self,days):
         '''
@@ -113,7 +113,7 @@ class HaiZhiTestEngine(object):
         :return:
         '''
         if isinstance(self._core,RealTimeTrading):
-            raise TypeError,'RealTimeTrading can not operate on current_time'
+            raise (TypeError,'RealTimeTrading can not operate on current_time')
         elif isinstance(self._core,HistoryTrading):
             self._current_time += datetime.timedelta(days=days)
             return self._current_time.strftime('%Y-%m-%d')
@@ -197,13 +197,13 @@ class HaiZhiTestEngine(object):
         if isinstance(self._core,HistoryTrading):
             return json.loads(self._core.get_strategy())
         else:
-            raise AttributeError, '%s has no attribute stratagy_name' % (self._core.__class__)
+            raise (AttributeError, '%s has no attribute stratagy_name' % (self._core.__class__))
     # 设置策略名称
     def set_stratagy(self, stratagy_name):
         if isinstance(self._core, HistoryTrading):
             self._core.set_strategy_name(stratagy_name)
         else:
-            raise AttributeError, '%s has no attribute stratagy_name' % (self._core.__class__)
+            raise (AttributeError, '%s has no attribute stratagy_name' % (self._core.__class__))
     #创建策略
     def create_stratagy(self,stratagy_name):
         if isinstance(self._core,HistoryTrading):
@@ -215,7 +215,7 @@ class HaiZhiTestEngine(object):
         if isinstance(self._core,HistoryTrading):
             return self._core.del_strategy(stratagy_name)
         else:
-            raise AttributeError, '%s has no attribute stratagy_name' % (self._core.__class__)
+            raise (AttributeError, '%s has no attribute stratagy_name' % (self._core.__class__))
     # 获取某个时期单只股票的某些属性
     def get_stock_args(self, code, startday="", endday="", args=[]):
         if isinstance(self._core, HaizhiData):
