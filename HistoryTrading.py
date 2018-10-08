@@ -17,8 +17,9 @@ class HistoryTrading(BaseUtils):
 
     """
 
-    def __init__(self, userid, password, strategy_name):
+    def __init__(self, userid, password, strategy_name, type = ""):
         super(HistoryTrading, self).__init__(userid, password)  # 使用super函数
+        self.send_dic['type'] = type
         self.stock_encode_name = 'tradeinfo'
         self.query_pro_encode_name = 'query_info'
         self.cancel_encode_name = 'cancel_info'
