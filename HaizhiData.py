@@ -56,7 +56,7 @@ class HaizhiData(BaseUtils):
         self.send_dic['end_day'] = endday
         return self.http_post(self.send_dic, self.stock_encode_name, plate_stocks_url)
 
-    # 获取某个时期某个板块的所有股票代码
+    # 获取指数里历史数据，目前支持上证指数、深证成指、创业板指、上证50
     def get_index_data(self, startday="", endday="", index_name=''):
         # index_name取值只能为上证指数、深证成指、创业板指、上证50
         index_data_url = self.prefix + 'Tradeinterface/get_index_data'
