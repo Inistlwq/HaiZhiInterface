@@ -1,6 +1,6 @@
 # coding:utf-8
 from .Base_Utils import BaseUtils
-
+import time
 
 class HaizhiData(BaseUtils):
     def __init__(self, userid, password):
@@ -56,4 +56,18 @@ class HaizhiData(BaseUtils):
         self.send_dic['end_day'] = endday
         return self.http_post(self.send_dic, self.stock_encode_name, plate_stocks_url)
 
+    # 获取某个时期某个板块的所有股票代码
+    def get_index_data(self, startday="", endday="", index_name=''):
+        # index_name取值只能为上证指数、深证成指、创业板指、上证50
+        index_data_url = self.prefix + 'Tradeinterface/get_index_data'
+        if startday == '':
+            startday = '2010-01-04'
+        if endday == '':
+            endday = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+        if index_name not in ['上证指数', '深证成指', '创业板指', '上证50']:
+            return "index_name must be one of ['上证指数', '深证成指','创业板指','上证50']"
+        self.send_dic['start_day'] = startday
+        self.send_dic['end_day'] = endday
+        self.send_dic['index'] = index_name
+        return self.http_post(self.send_dic, self.stock_encode_name, index_data_url)
 
