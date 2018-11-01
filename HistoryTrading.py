@@ -23,6 +23,7 @@ class HistoryTrading(BaseUtils):
         self.stock_encode_name = 'tradeinfo'
         self.query_pro_encode_name = 'query_info'
         self.cancel_encode_name = 'cancel_info'
+        self.strategy_name = strategy_name
         self.set_strategy_name(strategy_name)
 
     # 批量买卖交易
@@ -61,7 +62,7 @@ class HistoryTrading(BaseUtils):
         return self.http_post(self.send_dic, self.cancel_encode_name, cancel_url)
 
     # 得到交割单的csv文件
-    def get_history_csv(self, csv_path=''):
+    def get_history_csv(self, csv_path='', filename='交割单'):
         import json
         if not os.path.isdir(csv_path):
             return "path not exist!"  # 路径不存在
@@ -90,7 +91,7 @@ class HistoryTrading(BaseUtils):
                                      'fee': '手续费', 'tax': '印花税', 'other_fee': '其他杂费', 'security_holding': '证券余额',
                                     'hap_fund': '发生金额', 'remain_fund': '现金余额'})
 
-        data.to_csv(csv_path+'/交割单.csv', sep=",", index=False, encoding='gbk')
+        data.to_csv(csv_path+'/'+filename+'.csv', sep=",", index=False, encoding='gbk')
 
         return 'generate trade csv success!'
 
@@ -110,6 +111,13 @@ class HistoryTrading(BaseUtils):
         create_strategy_url = self.prefix + 'Tradeinterface/create_strategy'
         self.send_dic['strategy_name'] = strategy_name
         return self.http_post(self.send_dic, self.query_pro_encode_name, create_strategy_url)
+
+    # 根据用户策略名称查找策略id与用户id
+    def get_uuid_strategy_id(self):
+        get_uuid_strategy_id_url = self.prefix + 'Tradeinterface/get_uuid_strategy_id'
+        res = self.http_post(self.send_dic, self.query_pro_encode_name, get_uuid_strategy_id_url)
+        import json
+        return json.loads(res)[0]['user_id'], json.loads(res)[0]['strategy_id']
 
     # 查看用户策略
     def get_strategy(self):
