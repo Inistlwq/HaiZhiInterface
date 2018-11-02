@@ -73,6 +73,8 @@ class BaseUtils(object):
         req = request.Request(url, jdata)  # 生成页面请求的完整数据
         res = urlopen.urlopen(req)  # 发送页面请求
         temp_res = res.read()  # 返回结果，把list结果处理为字符串显示
+        if isinstance(temp_res, bytes):
+            temp_res = temp_res.decode()
         return temp_res
 
 

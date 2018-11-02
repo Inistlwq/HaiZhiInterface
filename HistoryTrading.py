@@ -69,7 +69,7 @@ class HistoryTrading(BaseUtils):
 
         data = self.bt_query_history_records(startday="", endday="")
         if isinstance(data, bytes):
-            data = str(data, encoding="utf8")
+            data = data.decode()
         data = json.loads(data)
         if isinstance(data[0], int):  # 如果返回的是错误信息，直接返回
             return json.dumps(data)
@@ -120,7 +120,13 @@ class HistoryTrading(BaseUtils):
         get_uuid_strategy_id_url = self.prefix + 'Tradeinterface/get_uuid_strategy_id'
         res = self.http_post(self.send_dic, self.query_pro_encode_name, get_uuid_strategy_id_url)
         import json
-        return json.loads(res)[0]['user_id'], json.loads(res)[0]['strategy_id']
+        res = json.loads(res)
+        if isinstance(res[0], int):
+            return 'strategy not exist', 'strategy not exist'
+        else:
+            return res[0]['user_id'], res[0]['strategy_id']
+
+
 
     # 查看用户策略
     def get_strategy(self):

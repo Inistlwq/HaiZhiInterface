@@ -240,6 +240,12 @@ class HaiZhiTestEngine(object):
             return self._core.get_plate_stocks(startday, endday, plate)
         else:
             raise TypeError
+    # 获取用户id和策略id
+    def get_uuid_strategy_id(self):
+        if isinstance(self._core, HistoryTrading):
+            return self._core.get_uuid_strategy_id()
+        else:
+            raise TypeError
 
 
 
