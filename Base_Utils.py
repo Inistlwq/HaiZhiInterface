@@ -89,7 +89,7 @@ class TechnicalIndicators(object):
            重要参数：close收盘价
         """
         single_stock_df['macd_diff'], single_stock_df['macd_dea'], single_stock_df['macd_histogram'] = talib.MACDEXT(
-            df[col], fastperiod=fastperiod, fastmatype=1, slowperiod=slowperiod, slowmatype=1,
+            single_stock_df[col], fastperiod=fastperiod, fastmatype=1, slowperiod=slowperiod, slowmatype=1,
             signalperiod=signalperiod, signalmatype=1)
         single_stock_df['macd_histogram'] *= 2
         return single_stock_df
