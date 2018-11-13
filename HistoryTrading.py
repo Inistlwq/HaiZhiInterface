@@ -68,8 +68,6 @@ class HistoryTrading(BaseUtils):
             return "path not exist!"  # 路径不存在
 
         data = self.bt_query_history_records(startday="", endday="")
-        if isinstance(data, bytes):
-            data = data.decode()
         data = json.loads(data)
         if isinstance(data[0], int):  # 如果返回的是错误信息，直接返回
             return json.dumps(data)
