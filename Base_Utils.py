@@ -73,9 +73,11 @@ class BaseUtils(object):
         req = request.Request(url, jdata)  # 生成页面请求的完整数据
         res = urlopen.urlopen(req)  # 发送页面请求
         temp_res = res.read()  # 返回结果，把list结果处理为字符串显示
-        if isinstance(temp_res, bytes):
+        if isinstance(temp_res, str):  # 考虑py2和py3中的字符串类型，py2中的str==bytes
+            return temp_res
+        elif isinstance(temp_res, bytes):
             temp_res = temp_res.decode()
-        return temp_res
+            return temp_res
 
 
 #  利用基本数据构造因子的类工具
