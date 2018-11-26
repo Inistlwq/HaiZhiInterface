@@ -240,10 +240,22 @@ class HaiZhiTestEngine(object):
             return self._core.get_plate_stocks(startday, endday, plate)
         else:
             raise TypeError
+
     # 获取用户id和策略id
     def get_uuid_strategy_id(self):
         if isinstance(self._core, HistoryTrading):
             return self._core.get_uuid_strategy_id()
+        else:
+            raise TypeError
+
+    # 改变回测引擎引擎类型 实现历史回测和今日回测的灵活转换
+    def set_engine_type(self, type=""):
+        """
+        :param type: 引擎种类，type=""为默认的历史回测引擎，type="today"为今日盘后总结引擎
+        :return:
+        """
+        if isinstance(self._core, HistoryTrading):
+            return self._core.set_engine_type(type)
         else:
             raise TypeError
 

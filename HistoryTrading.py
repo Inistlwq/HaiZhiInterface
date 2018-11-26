@@ -172,3 +172,11 @@ class HistoryTrading(BaseUtils):
         stock_dic = {'price_type': '', 'volume': '', 'code': '', 'date': ''}
         return stock_dic
 
+    # 设置引擎的种类
+    def set_engine_type(self, type):
+        """
+        :param type: 引擎种类，type=""为默认的历史回测引擎，type="today"为今日盘后总结引擎
+        :return:
+        """
+        self.send_dic['type'] = type
+
